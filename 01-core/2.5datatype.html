@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // no error
+      // 자바스크립트에서는 문자열로 선언하고 그 뒤에 숫자열을 넣어도 에러가 아니다
+      // 동적 타입 : 타입은 있지만 변수에 저장되는 값의 타입은 언제든지 바꿀 수 있는 언어
+      let message = "hello";
+      message = 123456;
+
+      // 숫자형(number type) 은 정수 및 부동소수점 숫자(floating point number)
+      // NaN(not a number)은 계산 중에 에러가 나타내주는 '값'(변수값임)
+      // 부정확하거나 정의되지 않은 수학 연산을 사용하면 계산 중에 에러가 발생하는데
+      // 이때 NaN이 반환됩니다
+      alert("숫자가 아님" / 2 + 5); // NaN
+
+      // 역 따옴표(백틱, backtick): 역 따옴표로 변수나 표현식을 감싼 후 ${…}안에 넣어준다
+      let name = "John";
+      alert(`Hello. ${name}`);
+      alert(`the result is ${1 + 2}`);
+
+      // undefined
+      // 어싸인하지 않았다/ 할당하지 않았다/
+      let age;
+      alert(age); // 'undefined'가 출력됩니다.
+
+      alert(typeof message);
+      alert(typeof message == "number");
+    </script>
+  </body>
+</html>
