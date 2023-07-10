@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let a = 0;
+      let b = "abc";
+
+      // || : 첫번째 truthy를 반환!
+      // a = falsy, b = truthy
+      // 그러므로 b값인 "abc"가 반환됨.
+      const c = a || b;
+      alert(c);
+
+      // 단락 평가(short-circuit evalution)
+      // b가 truthy이기 때문에 a는 평가하지 않는다.
+      const d = b || a;
+      alert(d);
+
+      "" || alert("truthy값을 반환함");
+
+      // &&는 첫번째 falsy를 반환
+      // a값인 0이 반환된 것
+      const e = a && b;
+      alert(e);
+
+      const f = b && 0 && a;
+      alert(f);
+
+      // !
+      // truthy, falsy값을 확실히 tru/flase로 바꾸고 싶을 때
+      // != 반대값인 boolean / !! = 식 평가와 동일한 boolean
+      alert(!a);
+      alert(!!a);
+
+      // 형변환 할 때
+      // 문자열 변환: "" + 값
+      // 숫자형 변환 : +값
+      // 불린형 변환 : !!값
+
+      const r = 0 || "" || null || undefined || "abc" || "def";
+      alert(r); // abc
+      const r1 = 0 && "" && null && undefined && "abc" && "def";
+      alert(r1); // 0
+    </script>
+  </body>
+</html>

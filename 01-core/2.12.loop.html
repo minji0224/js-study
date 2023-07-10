@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // for (let i = 2; i <= 10; i++) {
+      //   if (i % 2 === 0) {
+      //     alert(i);
+      //   }
+      // }
+
+      // while (true) {
+      //   const user = prompt("숫자 100보다 큰 숫자를 입력하세요");
+      //   if (user === "" || user === null) {
+      //     // 확인버튼클릭 또는 취소
+      //     break;
+      //   }
+      //   if (+user && user > 100) {
+      //     // 0이 아닌 숫자이면서 100보다 큰수
+      //     // +user는 user를 숫자형으로 변환한 것임 왜냐면 숫자로 해야 비교가 되니께
+      //     // 사용자로부터 입력값을 받는 건 사실상 문자열이기 때문에
+      //     break;
+      //   }
+      // }
+
+      let n = 10;
+
+      nextPrime: for (let i = 2; i <= n; i++) {
+        // 각 i에 대하여 반복문을 돌림
+
+        for (let j = 2; j < i; j++) {
+          // 제수(나눗수)를 찾음
+          if (i % j == 0) continue nextPrime; // 소수가 아니므로 다음 i로 넘어감
+        }
+
+        alert(i); // 소수
+      }
+    </script>
+  </body>
+</html>

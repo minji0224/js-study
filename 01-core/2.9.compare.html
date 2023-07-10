@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // javascript의 비교연산자에서는 ===(일치연산자) strict equal만 쓴다.
+      //  ==은 서로 자료형이 다르면 형 변환을 해준다.
+      // ===은 자료형이 다르면 무조건 false (자료형이 같을 때만 true인지 판단해준다)
+      alert(0 == false);
+      alert(0 === false);
+      alert(0 === 0);
+      alert(false === false);
+      alert(0 === 1);
+
+      alert(0 != false);
+      alert(0 !== false);
+      // 자바스크립트에서는 기본값을 0, "", false/true로 넣어야 함
+      // null, undefined 이런걸로 하면 버그 발생 가능성 존재
+
+      // 예외처리 코드는 초기화를 반드시 해줘야 한다.
+      // if (thpeof a === "undefined") {
+      //     a = 0 ;
+      //  }
+    </script>
+  </body>
+</html>
