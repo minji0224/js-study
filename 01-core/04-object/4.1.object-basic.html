@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- entity: 데이터를 가지고 있는 객체(object) 
+  자바스크립트의 객체는 자바의 Map과 비슷한데  key는 문자열만 가능함
+  (근데 키값이 "1" 문자형인 숫자면 안에서 숫자순(인티저)으로 정렬을 해버림;;;)
+  자바 Map<Integer, String>   자바스크립트 Map<String, ...>  -->
+
+    <script>
+      // let user = {}; // 빈객체로 초기화
+      const user = {
+        // const로 선언해도 속성값은 바꿀 수 있음. 다른 객체에 덮어씌워지지 않기 위해
+        // 속성(key, property): 값
+        name: "John",
+        age: 30,
+      };
+      console.log(user);
+
+      // 프로퍼티(속성값) 접근
+      // 객체변수명.속성명
+      document.write(user.name);
+      document.write(user.age);
+      console.log(user);
+
+      // 프로퍼티 추가
+      user.inAdmin = true;
+      console.log(user);
+      // user["isAdmin"]=true;
+
+      // 속성 삭제
+      delete user.age;
+      console.log(user);
+
+      // 속성값 변경
+      user.name = "Peter";
+      console.log(user);
+
+      // 상수라서 다른 객체 대입 불가, 초기화 불가
+      // user = {};
+      // user = { id: 123123, pue: "마스크" };
+
+      // 대괄호를 이용하여 객체 속성에 접근할 수 있다.
+
+      // set
+      user["likes birds"] = true;
+
+      // get
+      alert(user["likes birds"]); // true
+
+      // delete
+      delete user["likes birds"];
+
+      console.log(user["name"]);
+      delete user["isAdmin"];
+
+      let prop = "name";
+      console.log(user[prop]);
+
+      let fruit = prompt("어떤 과일을 구매하시겠습니까?", "apple");
+      let bag = {
+        [fruit]: 5,
+        // 변수 프루트에서 프로퍼티 이름을 동적으로
+      };
+      alert(bag.apple);
+      //  사용자가 애플 -> 백.애플 / 망고 -> 백.망고
+
+      // function makeUser(name, age) {
+      //   // name, age 속성이 있는 객체를 생성해서 반환
+      //   return {
+      //     name: name,
+      //     age: age,
+      //   };
+      // }
+
+      function makeUser(name, age) {
+        return {
+          // 속성명하고 변수명이 동일하면 생략가능
+          name,
+          age,
+        };
+      }
+
+      // 화살표 표기법으로 객체생성하기
+      // {}: 객체 생성문법
+      // 변수 = {...}, 객체를 생성해서 변수에 대입
+      // return {...}, 객체를 생성하여 반환
+
+      // const makeUser = (name, age) => ({name,age,})
+
+      let u = makeUser("John", 30);
+      console.log("---makeUser---");
+      console.log(u);
+
+      // in연산자로 속성 존재여부 확인
+      // "key" in Object
+      console.log("age" in u);
+
+      console.log("---");
+
+      // for(속성명변수 in 객체변수)
+      for (prop in u) {
+        // 객체의 속성명이 prop변수에 들어가면서 객체 속성 개수만큼 반복
+        // 탐색순서: 추가한 속성 순서대로 name -> age
+        console.log(prop, ": ", u[prop]);
+      }
+    </script>
+  </body>
+</html>

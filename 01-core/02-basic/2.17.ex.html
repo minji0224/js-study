@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // function ask(question, yes, no) {
+      //   if (confirm(question)) yes();
+      //   else no();
+      // }
+
+      // function yes() {
+      //   alert("동의하셨습니다.");
+      // }
+      // function no() {
+      //   alert("동의하지 않으셨습니다.");
+      // }
+
+      // ask("동의하십니까?", yes, no);
+
+      // let ask2 = (question, yes, no) => (confirm(question) ? yes() : no());
+
+      // ask2("동의하냐뇨?", yes, no);
+
+      let userName = prompt("이름을 알려주세요", "입력칸");
+      if (userName === "" || userName === null) {
+        alert("다시 입력해주세요.");
+      } else {
+        let pass = prompt(
+          `${userName}님, 비밀번호를 입력해주세요.`,
+          "패스워드"
+        );
+        if (pass === "123") {
+          alert("환영합니다.");
+        } else {
+          alert("인증되지 않은 사용자입니다.");
+        }
+      }
+
+      // let userName = prompt("이름을 알려주세요", "입력칸");
+      // let pass = prompt(`${userName}님, 비밀번호를 입력해주세요.`, "패스워드");
+      // if (userName === "" || userName === null) {
+      //   alert("다시 입력해주세요.");
+      // } else {
+      //   pass;
+      //   if (pass === "123") {
+      //     alert("환영합니다.");
+      //   } else {
+      //     alert("인증되지 않은 사용자입니다.");
+      //   }
+      // }
+
+      // 이게 안되는 이유는 코드는 순차적으로 실행되는데 내가 위에다 pass를 먼저
+      // 써버리면 pass는 이미 실행되어버리고 또 pass는 함수가 아니기 때문에
+      //  엘스문에서 실행자체도 안됨 글고 null님이라고 뜨는 것 또한
+      // 코드가 순차적으로 실행되기 때문에 if 조건문을 실행하기 전에 null값이 떠서 그런것
+    </script>
+  </body>
+</html>

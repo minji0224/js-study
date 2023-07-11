@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 함수선언식과 함수표현식의 차이
+      sayHi("고대근");
+      sayHi2("고대근");
+
+      // 함수선언식인 sayHi는 전역함수기 때문에 실행이 되지만
+      // 함수표현식인 sayHi2는 뒤에 있기때문에 (선언만 된 것)초기화가 된 것은 아니다.
+      // 선언이 뒤에 있는데 앞쪽에 사용을 한다. -> 브라우저 내부적으로 최상단에 선언됨
+      // 호이스팅(hosting): 끌어올린다.
+      // 함수 표현식은 실제 실행 흐름이 해당 함수에 도달했을 때 함수를 생성합니다.
+      // 따라서 실행 흐름이 함수에 도달했을 때부터 해당 함수를 사용할 수 있습니다.
+
+      function sayHi(name) {
+        alert(`Hello, ${name}`);
+      }
+
+      let sayHi2 = function (name) {
+        alert(`Hello, ${name}`);
+      };
+
+      // 여기 저기서 재사용하는 함수는 함수표현식으로 최상단에 쓰고
+      // 실행하는 시점에만 사용하는 함수는 함수 선언식으로 점진적으로 쓰는게
+      // 좋다는게 선생님의 의견입니다.
+    </script>
+  </body>
+</html>
