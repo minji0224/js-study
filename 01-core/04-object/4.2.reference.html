@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 객체 복제하는 법(객체 참조가 바뀐 것 / 객체를 복제해서 속성을 바꾸는)
+
+      // 정리
+
+      // 객체는 참조에 의해 할당되고 복사됩니다.
+      // 변수엔 ‘객체’ 자체가 아닌 메모리상의 주소인 '참조’가 저장됩니다.
+      // 따라서 객체가 할당된 변수를 복사하거나 함수의 인자로 넘길 땐
+      // 객체가 아닌 객체의 참조가 복사됩니다.
+
+      // 새로운 객체로 복제(얕은 복사)한다고 해도 복사하려는 객체안에
+      // 또 다른 객체가 값을 여러개 가지고 있는 경우(중첩객체 / 하위 속성)에는
+      // 그 여러값의 객체만 참조값으로 복사되어 변경값이 복제와 원본들 모두 공유된다
+      // 그럴때는 깊은 복사로 복제를 하면 여러값을 가진 객체 또한 카피본이 생긴다.
+      // 대신 깊은 복사는 함수는 복제가 안된다.
+
+      let user = {
+        name: "John",
+        age: 30,
+      };
+
+      // 항상 객체는 초기화 먼저 해줘야 됨
+      let clone = {};
+      for (let prop in user) {
+        // 속성을 생성하면서 대입하는 법
+        clone[prop] = user[prop];
+      }
+
+      // user의 name은 존
+      // clone의 name은 피트로 바뀜
+      clone.name = "Pete";
+      console.log(user.name);
+
+      console.log("----------------");
+
+      // Object.assign(대상객체, 소스객체,...)/   (기존객체에 속성 두개를 복사한 것)
+      // 객체 두개를 목적지(user)에 추가한 것
+      let permissions1 = { canView: true };
+      let permissions2 = { canEdit: true };
+
+      Object.assign(user, permissions1, permissions2);
+      // let clone = Object.assign({}, user);
+      // 속성값 카피 -> 신규객체에 새로 생성할거면 스프레드 연산이 좋음
+      console.log(user);
+      console.log(clone);
+
+      console.log("----------------");
+
+      // 새로운 객체를 생성 -> 대상객체가 새로운 객체니깐 대상객체를 반환함
+      // 대상객체에 같은 속성명이 있으면 덮어씌워줌
+      // let permissions2 = { name."Pete, canEdit: true };
+      //  -> 이렇게 하면 이름이 피트로 바뀜
+      const permissionedUser = Object.assign(
+        {},
+        user,
+        permissions1,
+        permissions2
+      );
+      console.log(permissionedUser);
+      console.log(user === permissionedUser);
+
+      // 스프레드 연산(...: spread operator)
+      // 객체의 모든 속성을 열거 해주는 연산
+      // ...user -> name : user.name
+      // user = {...user, ...permissions1, ...permissions2, phone: "01010101", name"KO"};
+      // {...user} user객체의 속성을 복사해서 객체 생성 -> 신규속성도 넣을 수 있음
+      // 모든 객체를 신규 객체에 복사하려고 할 때 쓰는 방식인데 user가 let때는 되지만 const일 때는 안됨
+      // 그래서 객체 복사할때는 Object.assign 쓰는게
+
+      console.log("----------------");
+      let clone2 = { ...user };
+      console.log(clone2);
+
+      console.log("----------------");
+      // 객체를 복제, 하위 속성까지 복제
+      // 대신에 함수는 복제가 안됨
+      // 객체에 데이터 값만 있을 때 deepClone하는 방법
+      // JSON.stringify -> 객체를 문자열로 변환(값으로 변환됐다는 말)
+      // JSON.parse -> 문자열을 객체로 변환(객체로 다시 복구해줌)
+      // JavaScript Object Notation(자바스크립트 객체 표기버)
+      let clone3 = JSON.parse(JSON.stringify(user));
+      console.log(JSON.stringify(user));
+      console.log(clone3);
+    </script>
+  </body>
+</html>

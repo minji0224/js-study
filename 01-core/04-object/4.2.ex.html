@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 1. 깊은 복사
+      let obj = {
+        name: "John",
+        age: 30,
+        skills: {
+          coding: "Javascript",
+          sports: "Football",
+        },
+      };
+
+      let copieObj = JSON.parse(JSON.stringify(obj));
+
+      // 2. 얕은 복사
+      let person = {
+        firstName: "John",
+        lastName: "Doe",
+      };
+
+      let copiePerson = { ...person };
+
+      // 3. 배열인 객체를 깊은 복사
+      let students = [
+        { name: "John", age: 21 },
+        { name: "Anna", age: 22 },
+        { name: "Max", age: 23 },
+      ];
+      let copieStudents = JSON.parse(JSON.stringify(students));
+
+      // 4. 깊은 복사하는 함수
+      function copyObj(obj) {
+        return JSon.parse(JSON.stringify(obj));
+      }
+
+      // 5. Object.assign사용하여 얕은 복사하는 법
+      let animal = {
+        type: "Dog",
+        name: "Milo",
+      };
+
+      let copiedAnimal = Object.assign({}, animal);
+      // let copieAnimal = {};
+      // let copieAnimal = Object.assign(copieAnimal, animal);
+      // 이것을 줄인 것이다 ㅋ
+    </script>
+  </body>
+</html>

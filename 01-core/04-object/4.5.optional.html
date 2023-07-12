@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 옵셔널 체이닝 ?
+      // 어드레스있나? 없나? 에러 안뜨게 해줘 라는 느낌
+
+      // 빈 객체만 생성하고 호출할 때 에러
+      let user = {}; // 주소 정보가 없는 사용자
+      console.log(user.address.street);
+      // 이렇게 됐을 때 에러는
+      // user(빈 객체로 생성 됐고) -> address를 undefined로 뜬다(반환 아님)
+
+      // 실무적인 에러 예)
+      // 사용자 정보인데, 어떤 사람은 주소 정보가 있고, 어떤 사람은 없을 때
+
+      // 자바스크렙트에서는 이전줄에서 에러가 발생하면 다음줄이 실행 안됨
+
+      console.log(user.address?.street);
+      // user.address -> 첫번째 undefined를 반환
+      // 속성으로 접근해서 반환한다. 에러로 안뜸
+    </script>
+  </body>
+</html>
