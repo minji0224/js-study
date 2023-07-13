@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 문제 1 : 첫글자를 대문자로 변경하기
+      function ucFirst(str) {
+        alert(str.toUpperCase().slice(0, 1) + str.slice(1));
+      }
+      ucFirst("john");
+      alert("john");
+      alert("john"[0].toUpperCase());
+      // 나는 이런식으로 했는데 만약 매개변수가 빈 문자열이라면 에러가 뜨기 때문에
+      // 아래 정답처럼 빈문자열이 아닐 때를 적어줘야 된다.
+      function ucFirst1(str) {
+        if (!str) return str;
+        return str[0].toUpperCase() + str.slice(1);
+      }
+      alert(ucFirst1("dudu"));
+
+      //문제 2 : 스팸 문자열 걸러내기
+      // 문자열을 걸러낼 때는 꼭 인자로 들어오는 변수를 소문자로 바꿔준 다음에
+      // 소문자로 비교하기
+      function checkSpam(str) {
+        let lowerStr = str.toLowerCase();
+        return lowerStr.includes("viagra") || lowerStr.includes("xxx");
+      }
+      alert(checkSpam("go xxx"));
+      alert(checkSpam("go XXX"));
+      alert(checkSpam("go viAGra go"));
+      alert(checkSpam("go"));
+
+      // 문제 3 : 문자열 줄이기
+      function truncate(str, maxlength) {
+        if (str.length > maxlength) {
+          return str.slice(0, maxlength - 1) + "...";
+        } else {
+          return str;
+        }
+      }
+      alert(truncate("abcdefg", 5));
+      alert(truncate("가나다라마바사", 5));
+      alert(truncate("123456", 5));
+      alert(truncate("", 10));
+
+      // 문제 4 : 숫자만 추출하기
+      function extractCurrencyValue(str) {
+        return +str.slice(1);
+      }
+      alert(extractCurrencyValue("$120") === 120);
+      alert(extractCurrencyValue("$120") === 110);
+    </script>
+  </body>
+</html>

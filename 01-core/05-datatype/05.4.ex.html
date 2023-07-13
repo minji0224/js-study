@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let styles = ["Jazz", "Bluse"];
+      styles.push("Rock-n-Roll");
+      console.log(styles);
+
+      function findMiddle(arr) {
+        let middle = Math.trunc(arr.length - 1 / 2);
+        return middle;
+      }
+
+      styles[findMiddle(styles)] = "Classics";
+      // styles[Math.trunc(styles.length-1 / 2)] = "Classics";
+      console.log(styles);
+
+      styles.shift();
+      console.log(styles);
+
+      styles.unshift("Rap", "Reggae");
+      console.log(styles);
+      console.log(styles.length);
+
+      // function sumInput() {
+      //   let userNums = [];
+      //   while (ture) {
+      //     let num = prompt("숫자를 입력하세요", "숫자");
+      //     if (num === "" || num === null || num === String) {
+      //       break;
+      //     }
+      //     userNums.push(+num);
+      //   }
+      //   let sum = 0;
+      //   for (let userNum of userNums) {
+      //     sum += userNum;
+      //   }
+      //   return userNum;
+      // }
+
+      // alert(sumInput());
+    </script>
+  </body>
+</html>
