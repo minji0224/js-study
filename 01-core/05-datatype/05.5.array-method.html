@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 자바스크립스에서 배열은 딜리트를 하면 중간에 구멍(언디파인드), 엠티가 생김
+      // 스플라이스를 쓰면 구멍을 매꿔줌
+      // arr.splice(삭제할 인덱스 시작, 삭제할 요소 개수)
+      let arr = ["I", "study", "Javascript"];
+
+      // // arr.splice(1, 1);  //(1번째 인덱스에서, 1개 삭제)
+      // console.log(arr); // study 삭제
+      // console.log(arr.length); // 2
+
+      // arr.splice(1) // 삭제할 요소 개수 없이 인덱스만 넣으면
+      // 해당 인덱스를 포함하여 뒤에 있는 모든 요소를 삭제한다.
+
+      const addArr = ["learn", " Java"];
+      arr.splice(1, 2, ...addArr); // 1번째 인덱스부터 2개 삭제 후 , addArr 추가
+      console.log(arr);
+
+      // 삭제한 요소가 반환이 된다.
+      let a = arr.splice(0, 2);
+      console.log(a);
+
+      // 특정위치에 여러개를 삭제시키고 꺼내오는 용도로 사용할 수 있다.
+      const toAddArr = ["learn", " Java"];
+      const arr2 = arr.splice(1, 2, ...toAddArr);
+      console.log(arr);
+      console.log(arr2);
+
+      // .splic(-1, 1) 인덱스 끝지점에서 시작
+
+      // .sliceㅇ에 인수를 넣지 않으면 복사가 된다. 근데 잘 안쓸수도
+      // string.slice와 동일
+      // 원래배열은 그대로고, 자른 것들은 반환 배열로
+      const arr3 = arr.slice();
+      const arr4 = [...arr];
+      console.log(arr3);
+      console.log(arr4);
+
+      // 언시프트를 쓰면 같은 객체를 참조하지만
+      // 슬라이스를 자르고 복제하면 새로운 객체로 생성되는 것
+
+      console.log("---------------");
+      // const new Arr = source.concat([...])
+      const nums = [1, 2];
+      const newNum = nums.concat([3, 4]);
+      console.log(newNum);
+
+      // 배열이 결합은 됐으다 넘스가 참조하는 배열은 동일하다.
+      nums.splice(nums.length, 0, ...[3, 4]);
+
+      // 배열이 결합되면서 새로운 참조배열이 생성
+      // nums가 참조하는 배열은 달라졌다
+      // nums = nums.concat([3, 4]);
+      // nums = [...numx, ...[3,4]];
+      // 둘은 동일한 것
+
+      // for each 반복문
+      // arr.forEach: 요소 개수만큼 반복
+      // 배열 인덱스가 필요하다(for in)
+      // 배열요소만 필요하다(for of)
+      // for(let index in arr) {
+      //   console.log(arr[index]);
+      // }
+      // for(let elm of arr) {
+      //   console.log(elm);
+      // }
+
+      // 변수가 없는 리터럴배열에 포이치문 사용한듯
+      // (item, index, array) 하나, 두개, 세개 다 사용가능
+      ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => {
+        console.log(`${item} is at index ${index} in ${array}`);
+      });
+
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 중요!!!!!!!!!!!!!!!!!
+      const arr10 = [{ val: 1 }, { val: 2 }, { val: 3 }];
+      // obj -> arr10[0] : 참조상태일 때는 indexOf가 됨
+      // obj -> {...arr10[0]} : 새로운객체일 때는 indexOf가 안됨
+      const obj = arr10[0];
+      console.log(arr10.indexOf(obj));
+    </script>
+  </body>
+</html>

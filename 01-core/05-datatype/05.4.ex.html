@@ -27,23 +27,21 @@
       console.log(styles);
       console.log(styles.length);
 
-      // function sumInput() {
-      //   let userNums = [];
-      //   while (ture) {
-      //     let num = prompt("숫자를 입력하세요", "숫자");
-      //     if (num === "" || num === null || num === String) {
-      //       break;
-      //     }
-      //     userNums.push(+num);
-      //   }
-      //   let sum = 0;
-      //   for (let userNum of userNums) {
-      //     sum += userNum;
-      //   }
-      //   return userNum;
-      // }
+      function sumInput() {
+        let numbers = [];
+        while (true) {
+          let nums = prompt("숫자를 입력하여 주세요.", "숫자 입력칸");
+          if (nums === "" || nums === null || nums === !isFinite(nums)) break;
+          numbers.push(+nums);
+        }
+        let sum = 0;
+        for (let a of numbers) {
+          sum += a;
+        }
+        return sum;
+      }
 
-      // alert(sumInput());
+      alert(sumInput());
     </script>
   </body>
 </html>
