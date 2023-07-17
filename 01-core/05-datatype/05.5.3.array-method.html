@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // sort 숫자 정렬
+      let arr = [15, 1, 2];
+      arr.sort();
+      console.log(arr);
+      // sort 글자로 정렬함   // 1 15 2 // 숫자로 정렬하고 싶으면 함수를 써줘야 됨
+      arr.sort((a, b) => a - b); // a 왼쪽을 기준으로 잡자
+      console.log(arr);
+      // sort의 넘기함수(정순정렬)
+      // 첫번째 매개변수가 작을 때 음수 반환
+      // 클 때 양순 반환
+      // a가 작고, b가 크면 값이 -a // a가 앞에 온다(음수)
+      // a가 크고, b가 작으면 (b-a) 역순, 큰게 앞에 온다
+
+      // sort 문자 정렬
+      let strArr = ["John", "Pete", "Mart"];
+      strArr.sort;
+      console.log(strArr);
+      strArr.sort((a, b) => a.localeCompare(b));
+      console.log(strArr);
+
+      // sort 객체 정렬
+      let users = [
+        { id: 1, name: "John" },
+        { id: 2, name: "Pete" },
+        { id: 3, name: "Mary" },
+      ];
+
+      // 이름 기준 정렬
+      // a.name이 b.name보다 앞쪽에 오면 음수
+      users.sort((a, b) => a.name.localeCompare(b.name));
+      console.log(users);
+
+      //
+
+      //
+
+      // 구분자(,)로 나눠서 배열 만드는 법
+      let names = "Bilbo,Gandalf,Nazgul";
+      const namesArr = names.split(",");
+      console.log(namesArr);
+
+      // 배열 요소 사이에 구분자(;)를 넣어 문자열로 반환
+      const joindStr = namesArr.join("; ");
+      console.log(joindStr);
+
+      // 배열로 빼서 문자열로 만드는 것
+      const userNames = users.map((u) => u.name).join(", ");
+      document
+        .querySelector("body")
+        .insertAdjacentHTML("afterbegin", `<div>${userNames}</div>`);
+      console.log(userNames);
+
+      // 식 하나로 계산 쓰는 법(포문을 못쓸때)
+      // (accumulator, item, index, array) =>
+      // 누산기(sum +=item) : 누적해서 더해서 저장 (더하기 / 곱하기는 초깃값1)
+
+      // reduce(계산할 함수, 초깃값)
+      // .reduce((sum, num) => sum + num, 0)
+      // 누산할 변수명(누적해서 저장할 곳), 식, 0(초깃값)
+      let arrNumbers = [1, 2, 3, 4, 5];
+      const result = arrNumbers.reduce((sum, num) => sum + num, 0);
+      // 1회반복 : sum<-0, num<-1 => sum:1
+      // 1회반복 : sum<-1, num<-2 => sum:3
+      console.log(result);
+
+      // arr.sum(요소마다 실행할 함수)
+      // 함수의 반환이 true이면 조건에 맞는 요소가 있는 것(찾은 것)
+      // users.some(()=>"");
+      const res1 = users.some((user) => user.name === "John");
+      const res2 = users.some((user) => user.id > 2);
+      console.log(res1);
+      console.log(res2);
+    </script>
+  </body>
+</html>
