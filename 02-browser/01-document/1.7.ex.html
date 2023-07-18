@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <ol id="elem">
+      <li>Hello</li>
+      <li>World</li>
+    </ol> -->
+
+    <ul id="ul">
+      <li id="one">1</li>
+      <li id="two">4</li>
+    </ul>
+    <script>
+      // function clear(elem) {
+      //   document.body.remove(elem.children);
+      // }
+      // clear(elem);
+
+      // prompt를 사용해 사용자로부터 리스트의 내용을 입력받습니다.
+      // 1번에서 입력받은 내용을 갖는 <li> 를 생성한 후 <ul> 에 추가합니다.
+      // 사용자가 입력을 취소할 때까지 계속합니다 (ESC 키나 프롬프트 창의 취소 버튼을 누를 때까지).
+
+      // let ul = document.createElement("ul");
+      // document.body.append(ul);
+
+      // while (true) {
+      //   let userList = prompt("좋아하는 음식을 입력하여 주세요.");
+      //   if (!userList) {
+      //     break;
+      //   }
+      //   let li = document.createElement("li");
+      //   li.textContent = userList;
+      //   ul.append(li);
+      // }
+
+      let ul = document.querySelector("#ul");
+      let firstLi = document.querySelector("#one");
+
+      for (i = 2; i < 4; i++) {
+        let li = document.createElement("li");
+        li.textContent = i;
+        firstLi.append(li);
+      }
+    </script>
+  </body>
+</html>

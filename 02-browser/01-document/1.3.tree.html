@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>시작</div>
+    <ul>
+      <li>항목: <data>1</data></li>
+      <li>항목: <data>2</data></li>
+      <li>항목: <data>3</data></li>
+    </ul>
+    <div>끝</div>
+
+    <!-- 엔터를 치면 어쩔 수 없이 빈공간에 텍스트노드가 삽입되게 된다. -->
+    <script>
+      const ul = document.querySelector("ul");
+      console.log(ul.childNodes); // text노드 포함(돔트리)
+      console.log(ul.children); //html element만
+      console.log(ul.children.length - 1);
+
+      // 자식들(복수형)
+      const li = ul.children[1];
+      console.log(li.childNodes);
+
+      // 부모(는 한명)
+      console.log(li.parentElement); // 요소
+      console.log(li.parentNode); // 노드(부모가 텍스트일 가능성은 낮다/ 태그임)
+
+      // 바로 앞에 있는 형제/자매/남매
+      // 위에 있는 것 탐색
+      console.log(li.previousElementSibling); // 엘리먼트
+      console.log(li.previousSibling); // li에 있는 text //노드
+
+      // 바로 뒤에 있는 형제/자매/남매
+      console.log(li.nextElementSibling);
+      console.log(li.nextSibling);
+    </script>
+  </body>
+</html>
