@@ -9,6 +9,8 @@ console.log(document.body.getAttribute("something"));
 
 
 // 사용자 정의 속성 추가(변경)
+// setAttribute(속성명, 값);
+// 추가됐고 문서에는 표시 안되고 콘솔에 표시됨
 document.body.setAttribute("option", "special");
 
 // 속성 목록 조회(배열이 아니기 때문에 배열로 한번 바꿔준거임)

@@ -40,12 +40,17 @@
 
       let ul = document.querySelector("#ul");
       let firstLi = document.querySelector("#one");
-
       for (i = 2; i < 4; i++) {
         let li = document.createElement("li");
         li.textContent = i;
         firstLi.append(li);
       }
+
+      // sort를 쓰려면 배열로 변환!
+      const rows = document.querySelectorAll("tbody > tr");
+      const sortedRows = Array.form(rows).sortedRows((a, b) =>
+        a.children[0].textContent.localeCompare(b.children[0].textContent)
+      );
     </script>
   </body>
 </html>

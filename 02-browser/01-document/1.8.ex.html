@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // let count = 1;
+      // setInterval(() => {
+      //   showNotification({
+      //     top: 10,
+      //     right: 10,
+      //     html: `Hello! ${count}`,
+      //     className: "welcome",
+      //   });
+      // }, 1500);
+
+      showNotification({
+        top: 10,
+        right: 10,
+        html: "Hello",
+        className: "welcome",
+      });
+
+      function showNotification(options) {
+        let div = document.createElement("div");
+        div.textContent = options.html;
+        div.style.position = "fixed";
+        div.style.backgroundColor = "black";
+        div.style.color = "white";
+        div.style.top = `${options.top}px`;
+        div.style.right = `${options.right}px`;
+        document.body.prepend(div);
+        setTimeout(() => {
+          div.remove();
+        }, 3500);
+      }
+
+      // function showNotification({
+      //   top,
+      //   right,
+      //   html,
+      //   className,
+      // })
+    </script>
+  </body>
+</html>
