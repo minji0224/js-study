@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      li {
+        cursor: pointer;
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <input placeholder="먹고 싶은 음식을 입력" />
+      <button>추가</button>
+    </div>
+
+    <script>
+      /*
+      1. 인풋 만들고
+      2. 추가 버튼 만들고
+      3. 추가 버튼을 누르면 ul안에 li를 만들고 -> 추가하고
+      4. 마우스를 클릭하면 삭제되는 기능을 만들기
+      */
+
+      // const button = document.querySelector("button");
+      // const container = document.querySelector("#container");
+
+      // button.addEventListener("click", () => {
+      //   const input = document.querySelector("input");
+      //   const li = document.createElement("li");
+      //   const inputValue = input.value;
+
+      //   li.textContent = inputValue;
+
+      //   container.querySelector("ul").prepend(li);
+
+      //   input.value = "";
+
+      //   li.addEventListener("click", () => {
+      //     li.remove();
+      //   });
+      // });
+
+      // input.addEventListener("keydown", (e) => {
+      //   if(e === "enter") {
+      //     // 위 메서드 또 추가
+      //   }
+      // });
+
+      const container = document.querySelector("#container");
+      const ul = document.createElement("ul");
+      container.append(ul);
+
+      const addList = function () {
+        const input = document.querySelector("input");
+        const li = document.createElement("li");
+
+        const inputValue = input.value;
+
+        li.textContent = inputValue;
+        ul.contains(li);
+
+        li.addEventListener("click", () => {
+          li.remove();
+        });
+
+        ul.prepend(li);
+
+        input.value = "";
+      };
+
+      container.querySelector("button").addEventListener("click", addList);
+      container.querySelector("input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          addList();
+        }
+      });
+
+      // const container = document.querySelector("#container");
+      // const addList = function () {
+      //   const input = document.querySelector("input");
+      //   const li = document.createElement("li");
+      //   const inputValue = input.value;
+
+      //   li.textContent = inputValue;
+
+      //   container.querySelector("ul").prepend(li);
+
+      //   input.value = "";
+
+      //   li.addEventListener("click", () => {
+      //     li.remove();
+      //   });
+      // };
+
+      // container.querySelector("button").addEventListener("click", addList);
+      // container.querySelector("input").addEventListener("keydown", (e) => {
+      //   if (e.key === "Enter") {
+      //     addList();
+      //   }
+      // });
+    </script>
+  </body>
+</html>

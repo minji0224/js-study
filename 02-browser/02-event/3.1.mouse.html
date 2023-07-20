@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="width: 100vw; height: 100vh">
+    <input />
+    <script>
+      // document.body.addEventListener("click", (e) => {
+      //   // console.log(e.button);
+      //   // console.log(e.buttons);
+      //   console.log(e);
+      // });
+
+      const input = document.querySelector("input");
+      input.addEventListener("keydown", (e) => {
+        console.log(e);
+        if (e.code.toLocaleLowerCase() === "enter") {
+          alert("엔터치지마!!!");
+        }
+
+        if (e.code.toLocaleLowerCase() === "backspace") {
+          alert("가지마!!!!!");
+        }
+      });
+    </script>
+  </body>
+</html>

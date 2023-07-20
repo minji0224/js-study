@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      a {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="contents">
+      How about to read
+      <a href="https://www.naver.com/">Wikipedia</a> or visit
+      <a href="https://www.daum.net/">W3.org</a> and learn about modern
+      standards?
+    </div>
+
+    <script>
+      const contents = document.getElementById("contents");
+      const a = document.querySelectorAll("a");
+      // window.location.href = contents.children[0].getAttribute("href");
+
+      a.forEach((item) => {
+        item.addEventListener("click", (e) => {
+          const check = confirm("해당 링크로 이동하시겠습니까?");
+          if (!check) {
+            e.preventDefault();
+          }
+        });
+      });
+
+      // item.addEventListener("click", (e) => {
+      //   confirm("해당 링크로 이동하시겠습니까?") ? "" : e.preventDefault();
+      // });
+
+      // 나는 이렇게 삼항연산자로 했는데 사실상 "" 빈문자열은 안넣어도 되는 거니깐
+      // 굳이 삼항연산자로 조건?의 값을 넣어줄 필요없고 조건이 필요한 경우만 이프를 걸어주는게 맞는듯
+
+      // 포이치 대신
+      // for (let item of a) {
+      //   console.log(item);
+      // }
+
+      // if (check) {
+      //     //링크타고 새창으로 이동시키기
+      //     //윈도우끄기
+      //   }""
+      //   if (!check) {
+      //     e.preventDefault();
+      //   }
+      // });
+    </script>
+  </body>
+</html>
