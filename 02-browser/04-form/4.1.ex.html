@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <input name="checkboxs" type="checkbox" value="Cherry" /> 체리
+      <input name="checkboxs" type="checkbox" value="Chocolate" /> 초콜릿
+      <input name="checkboxs" type="checkbox" value="Watermelon" /> 수박
+      <button>선택한 상품 보기</button>
+    </form>
+
+    <script>
+      (() => {
+        const form = document.querySelector("form");
+        const checkboxs = form.querySelectorAll("input[name='checkboxs']");
+        const button = document.querySelector("button");
+
+        button.addEventListener("click", (e) => {
+          for (let check of checkboxs) {
+            if (check.checked) {
+              const values = check.value;
+              alert(`${values}를 구매하시겠습니까?`);
+            }
+          }
+        });
+      })();
+
+      // const checkboxs = document.querySelectorAll(
+      //   "input[name='checkboxs']:checked"
+      // );
+
+      // 체크가 되어있는지 반복문을 먼저 돌려야 되지 않나?
+
+      // 1. 모든 인풋 요소를 변수에 넣고
+      // const boxs = document.querySelectorAll("input[name='checkboxs']");
+      // console.log(boxs);
+
+      // // 2. 선택된 인풋요소들 중에 체크된 아이가 있는지 배열로 바꾼 후 반복문을 돌려서 확인하고
+      // // 3. 체크된 인풋요소들을 다시 배열로 바꾼 후 조건문을 달아 버튼을 누르면 얼럿창 띄우기
+
+      // Array.from(boxs).forEach((e) => {
+      //   const button = document.querySelector("button");
+      //   const checkboxs = e.querySelectorAll("input[name='checkboxs']:checked");
+      //   const checkboxsValue = Array.from(checkboxs).map((a) => a.value);
+
+      //   button.addEventListener("click", (e) => {
+      //     if (checkboxsValue) {
+      //       alert(`${checkboxsValue}를 구매하시겠습니까?`);
+      //     }
+      //   });
+      // });
+
+      // (() => {
+      //   const boxs = document.querySelectorAll(
+      //     "input[name='checkboxs']:checked"
+      //   );
+
+      //   Array.from(boxs).forEach((e) => {
+      //     const value = e.map((a) => a.value);
+
+      //     button.addEventListener("click", (e) => {
+      //       if (boxs) {
+      //         alert(`${boxs}를 구매하시겠습니까?`);
+      //       }
+      //     });
+      //   });
+      // })();
+
+      // (() => {
+      //   const boxs = document.querySelectorAll(
+      //     "input[name='checkboxs']:checked"
+      //   );
+      //   console.log(boxs);
+      //   const button = document.querySelector("button");
+
+      //   button.addEventListener("click", (e) => {
+      //     Array.from(boxs).forEach((e) => {
+      //       const value = e.value;
+      //       console.log(value);
+      //       if (boxs) {
+      //         alert(`${value}를 구매하시겠습니까?`);
+      //       }
+      //     });
+      //   });
+      // })();
+
+      // 우선 셀렉터올에서 인풋체크드는 안됨
+      // 사용자가 체크를 했을 때 체크가 되는거니깐 체크가 됐는지 반복문을 돌리는게 맞는 듯
+
+      // (() => {
+      //   const boxs = document.querySelectorAll("input[name='checkboxs']");
+      //   // 지금 boxs는 노드리스트기 때문에 반복문 돌리려면 배열로 변환해야 됨
+      //   Array.from(boxs).forEach((e) => {
+      //     const check = document.querySelectorAll(
+      //       "input[name='checkboxs']:checked"
+      //     );
+      //     if (e === check) {
+      //       const name = e.map((a) => a.value);
+      //       alert(`${name}를 구매하시겠습니까?`);
+      //     }
+      //   });
+      // })();
+    </script>
+  </body>
+</html>

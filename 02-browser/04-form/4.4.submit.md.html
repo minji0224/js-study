@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- form은 제출이라는 이벤트가 발생함 제어해줘야함 -->
+
+    <!-- form action="URL(Unifide Resource Locator)" 
+    action url에 form값을 전달
+    form의 값은 name속성으로 구분하여 전달됨
+    https://search.naver.com/search.naver?query=입력값 
+    ?name=value&name=value...    querystrin, quert parameter 검색문자열-->
+
+    <form id="naver-search" action="https://search.naver.com/search.naver">
+      <input type="text" name="query" />
+      <button>네이버 검색결과 보기</button>
+    </form>
+
+    <hr />
+
+    <form id="meta-search" target="_blank">
+      <select>
+        <option value="google">Google</option>
+        <option value="daum" selected>Daum</option>
+        <option value="bing">Bing</option>
+      </select>
+      <input type="text" name="q" />
+      <button>검색 결과 보기</button>
+    </form>
+
+    <script src="4.4.submit.md.js"></script>
+  </body>
+</html>

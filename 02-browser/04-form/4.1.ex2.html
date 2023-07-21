@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form>
+      <h3>당신이 좋아하는 프로그래밍 언어를 선택하여 주세요.</h3>
+      <br />
+      <input type="radio" value="Python" name="pro" />Python
+      <input type="radio" value="JavaScript" name="pro" />JavaScript
+      <input type="radio" value="Java" name="pro" />Java
+      <input type="radio" value="C++" name="pro" />C++
+      <button>제출하기</button>
+      <br />
+
+      <h2>설문조사</h2>
+      <h1>당신의 성별은 무엇인가요?</h1>
+      <label> <input type="radio" value="female" name="gender" />여성 </label>
+      <label> <input type="radio" value="male" name="gender" />남성 </label>
+      <h1>당신의 취미를 선택하세요.</h1>
+      <label>
+        <input type="checkbox" value="reading" name="hobby" />독서
+      </label>
+      <label>
+        <input type="checkbox" value="music" name="hobby" />음악 감상
+      </label>
+      <label>
+        <input type="checkbox" value="movie" name="hobby" />영화 감상
+      </label>
+      <label> <input type="checkbox" value="ex" name="hobby" />운동 </label>
+      <button name="two">제출하기</button>
+    </form>
+    <script>
+      const form = document.querySelector("form");
+      (() => {
+        const pro = form.querySelectorAll("input[name='pro']");
+        const button = form.querySelector("button");
+
+        button.addEventListener("click", (e) => {
+          for (let check of pro) {
+            if (check.checked) {
+              const values = check.value;
+              alert(`${values}가 제일 쉽나요?`);
+            } else {
+              e.preventDefault();
+            }
+          }
+        });
+      })();
+
+      (() => {
+        const gender = form.querySelectorAll("input[name='gender']");
+        const hobby = form.querySelectorAll("input[name='hobby']");
+        const twoButton = form.querySelector("button[name='two']");
+        twoButton.addEventListener("click", (e) => {
+          for (let c of gender) {
+            const cValues = c.value;
+            for (let d of hobby) {
+              if (c.checked && d.checked) {
+                const dValues = d.value;
+                alert(`당신은 ${cValues}이며, 취미는 ${dValues}입니다.`);
+              }
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
