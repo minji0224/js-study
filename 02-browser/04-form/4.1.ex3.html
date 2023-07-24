@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <!-- form으로 묶으면 왜 안되는지  -->
+  <body>
+    <h1>연락처 관리 프로그램</h1>
+    <input type="text" name="userName" placeholder="이름" />
+    <input type="text" name="userNumber" placeholder="전화번호" />
+    <input type="text" name="userEmail" placeholder="이메일" />
+    <button name="add">추가버튼</button>
+    <h2>저장된 연락처 리스트</h2>
+    <ul></ul>
+    <h2>연락처 삭제하기</h2>
+    <input type="text" name="name" placeholder="삭제할 이름을 입력하세요" />
+    <button name="delButton">삭제버튼</button>
+
+    <script>
+      const addButton = document.querySelector("[name=add]");
+      const ul = document.querySelector("ul");
+      const delButton = document.querySelector("[name=delButton]");
+      const userName = document.querySelector("input[name=userName]");
+      const userNumber = document.querySelector("input[name=userNumber]");
+      const userEmail = document.querySelector("input[name=userEmail]");
+
+      addButton.addEventListener("click", () => {
+        const li = document.createElement("li");
+        li.textContent = `이름: ${userName.value}, 전화번호: ${userNumber.value}, 이메일: ${userEmail.value}`;
+        ul.prepend(li);
+
+        userName.value = "";
+        userNumber.value = "";
+        userEmail.value = "";
+      });
+
+      // 조건문이 잘못됐음 // 정확히 userName의 벨류값이랑 비교해야됨
+      // /Array.form으로 접근
+      delButton.addEventListener("click", () => {
+        const name = document.querySelector("input[name=name]");
+        const list = Array.from(ul.childNodes);
+        for (const i in list) {
+          if (list[i].textContent.includes(name.value)) {
+            list[i].remove();
+            name.value = "";
+          }
+        }
+      });
+
+      //  유사배열객체로 접근
+      // delButton.addEventListener("click", () => {
+      //   const name = document.querySelector("input[name=name]");
+      //   const list = ul.childNodes;
+      //   for (let i = 0; i < list.length; i++) {
+      //     if (list[i].textContent.userName.value && name.value) {
+      //       list[i].remove();
+      //       name.value = "";
+      //     }
+      //   }
+      // });
+
+      // forEach문
+      // const list = document.querySelector("ul").childNodes;
+      // list.forEach((e) => {
+      //   if (e.textContent.includes(name)) {
+      //     e.remove();
+      //     document.querySelector("input[name=name]").value = "";
+      //   }
+      // });
+
+      // 객체나 배열로 만들어서 name값에 도달하고 싶은데 안됨 흠냐,,
+      // const lis = document.querySelectorAll("li");
+      // const arr = [];
+      // lis.forEach((item) => {
+      //   arr.push(item.textContent);
+      // });
+      // console.log(arr[0]);
+    </script>
+  </body>
+</html>

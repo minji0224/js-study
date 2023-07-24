@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="formFru">
+      <select id="fruits">
+        <option value="apple">apple</option>
+        <option value="banana">banana</option>
+        <option value="cherry">cherry</option>
+        <option value="strawberry">strawberry</option>
+      </select>
+      <input type="submit" />
+      <p id="result"></p>
+    </form>
+
+    <form id="formGen">
+      <select id="gender">
+        <option value="female">여자</option>
+        <option value="male">남자</option>
+      </select>
+      <input type="submit" name="genderSub" />
+      <p id="p"></p>
+    </form>
+
+    <script>
+      const form = document.querySelector("#formFru");
+      const fruits = form.querySelector("#fruits");
+      const submit = form.querySelector("input");
+      const p = form.querySelector("#result");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = fruits.value;
+        // p.prepend(value);
+        p.textContent = `당신이 선택한 과일은 ${value}입니다.`;
+      });
+
+      const form2 = document.querySelector("#formGen");
+      const gender = form2.querySelector("#gender");
+      const genderSub = form2.querySelector("input[name=genderSub]");
+      const p1 = form2.querySelector("#p");
+      console.log(p1);
+
+      form2.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = gender.value;
+        p1.textContent = value;
+      });
+    </script>
+  </body>
+</html>

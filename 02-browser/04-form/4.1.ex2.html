@@ -33,6 +33,7 @@
       <label> <input type="checkbox" value="ex" name="hobby" />운동 </label>
       <button name="two">제출하기</button>
     </form>
+
     <script>
       const form = document.querySelector("form");
       (() => {
@@ -46,6 +47,7 @@
               alert(`${values}가 제일 쉽나요?`);
             } else {
               e.preventDefault();
+              console.log(e);
             }
           }
         });
