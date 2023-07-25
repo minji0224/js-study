@@ -41,6 +41,7 @@
       delButton.addEventListener("click", () => {
         const name = document.querySelector("input[name=name]");
         const list = Array.from(ul.childNodes);
+        // 노드리스트는 유사배열객체인데 굳이 배열로 변환해야하나?
         for (const i in list) {
           if (list[i].textContent.includes(name.value)) {
             list[i].remove();
@@ -49,7 +50,7 @@
         }
       });
 
-      //  유사배열객체로 접근
+      //  유사배열객체
       // delButton.addEventListener("click", () => {
       //   const name = document.querySelector("input[name=name]");
       //   const list = ul.childNodes;
