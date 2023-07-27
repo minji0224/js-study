@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container > div {
+        margin: 2rem;
+        padding: 1rem;
+        border: 1px solid #f9bec7;
+        border-radius: 20px;
+        background-color: #fae0e4;
+        box-shadow: 10px 10px 10px #f38375;
+        width: 400px;
+      }
+      span {
+        display: block;
+      }
+
+      .container > div > span:first-child {
+        font-size: small;
+      }
+
+      .container > div > h3 {
+        text-align: center;
+        font-size: 1.7rem;
+        letter-spacing: 0.1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+
+      .container > div > p {
+        margin: 1rem;
+      }
+      .container > div > span:nth-last-child(1) {
+        font-size: small;
+        text-align: right;
+        font-style: oblique;
+      }
+
+      .form {
+        margin: 2rem;
+        padding: 1rem;
+        border: 1px solid #f9bec7;
+        border-radius: 20px;
+        background-color: #fae0e4;
+        box-shadow: 10px 10px 10px #f38375;
+        width: 400px;
+      }
+
+      .form > input,
+      button {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form">
+      <input type="text" placeholder="제목" />
+      <input type="text" placeholder="컨텐트" />
+      <button>추가</button>
+    </div>
+    <div class="container"></div>
+
+    <script>
+      (async () => {
+        const response = await fetch("http://localhost:8080/posts");
+        const result = Array.from(await response.json()); // result값을 자바스크립트의 문자열로 받아오는 것
+
+        result.forEach((item) => {
+          const container = document.querySelector(".container");
+
+          const time = new Date(item.createdTime);
+          const formattedTime = `${time.getFullYear()}년
+           ${(time.getMonth() + 1).toString()}월
+           ${time.getDate().toString()}일
+           ${time.getHours().toString()}시
+           ${time.getMinutes().toString()}분
+           ${time.getSeconds().toString()}초`;
+
+          const template = `<div data-no="${item.no}">
+            <span>${item.creatorName}</span><h3>${item.title}</h3>
+          <p>${item.content}</p>
+          <span>${formattedTime}</span></div> `;
+          container.insertAdjacentHTML("beforeend", template);
+        });
+      })();
+
+      (() => {
+        const form = document.querySelector(".form");
+        const inputs = form.querySelectorAll("input");
+        const title = inputs[0];
+        const content = inputs[1];
+        const add = form.querySelector("button");
+
+        add.addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          if (title.value === "") {
+            alert("제목을 입력해주세요.");
+            return;
+          }
+
+          if (content.value === "") {
+            alert("본문을 입력해주세요.");
+            return;
+          }
+
+          const response = await fetch("http://localhost:8080/posts", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              title: title.value,
+              content: content.value,
+            }),
+          });
+
+          console.log(response);
+          const result = await response.json();
+          console.log(result);
+
+          const container = document.querySelector(".container");
+
+          const template = `<div data-no="${result.data.no.value}">
+          <span>${result.data.no.value}</span><h3>${title.value}</h3>
+          <p>${content.value}</p>
+          </div> `;
+
+          container.append(template);
+          // form.reset();
+        });
+      })();
+    </script>
+  </body>
+</html>

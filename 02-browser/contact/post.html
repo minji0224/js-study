@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      (async () => {
+        const body = document.body;
+        const url = "http://localhost:8080/posts";
+
+        // 1. fetch
+        const response = await fetch(url);
+        const result = Array.from(await response.json());
+        console.log(result);
+
+        // 2. 데이터배열 반복문으로 html문자열 만들고,
+        //    컨테이너에 추가
+
+        result.forEach((item) => {
+          const template = /*html*/ `
+          <div style = "width:300px" data-no="${item.no}">
+            <em>${item.creatorName}</em><hr>
+            <h3>${item.title}</h3>
+            <p>${item.content}</p><hr>
+            <small>${new Date(
+              item.createdTime
+            ).toLocaleString()}</small></div>`;
+
+          body.insertAdjacentHTML("beforeend", template);
+        });
+      })();
+    </script>
+  </body>
+</html>
