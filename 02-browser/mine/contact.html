@@ -9,9 +9,13 @@
     <h2>연락처 관리 프로그램</h2>
     <hr />
     <form>
+      <!-- MIME type(파일형식을 나타내는) : application/json, image/png ... -->
       <label>이름 <input type="text" /></label>
       <label>전화번호<input type="tel" /></label>
       <label>이메일<input type="email" /></label>
+      <br />
+      <label>이미지: <input type="file" accept="image/*" /></label>
+      <!-- 파일에 멀티풀 쓰면 파일 여러개 선택 가능 -->
       <button>추가</button>
     </form>
     <h3>저장된 연락처 리스트</h3>
@@ -26,31 +30,59 @@
     </form>
 
     <script>
+      function createRow(name, phone, email, image) {
+        const tr = document.createElement("tr");
+        // 추가할 데이터를 삭제할 때 사용하려고 데이터 속성을 추가함
+        tr.dataset.email = email;
+
+        tr.innerHTML =
+          /*html*/
+          `
+          <td>${name}</td>
+          <td>${phone}</td>
+          <td>${email}</td>
+          <td>
+            ${
+              image
+                ? `<img width="auto" height="30" src="${image}" alt"${name}">`
+                : ""
+            }
+           </td>
+          `;
+        return tr;
+      }
+
+      // 1. 데이터 조회 및 목록 생성
       (async () => {
         const response = await fetch("http://localhost:8080/contacts");
-        // 결과가 배열
-        const result = await response.json();
+        const result = await response.json(); // 결과 배열로 나타남
         console.log(result);
+        // for (let i of result) {
+        //   console.log(i["name"]);
+        //   console.log(i.name);
+        // }
+
         const tbody = document.querySelector("tbody");
         // 배열 반복을 해서 tr만든 다음에 tbody가장 마지막 자식에 추가
         for (let item of result) {
-          const template = `<tr data-email="${item.email}">
-            <td>${item.name}</td><td>${item.phone}</td><td>${item.email}</td></tr>`;
-          tbody.insertAdjacentHTML("afterbegin", template);
+          tbody.append(
+            createRow(item.name, item.phone, item.email, item.image)
+          );
         }
       })();
 
-      // 추가폼
+      // 2. 추가 폼 처리
       (() => {
         const form = document.forms[0];
         const inputs = form.querySelectorAll("input");
         const name = inputs[0];
         const phone = inputs[1];
         const email = inputs[2];
+        const file = inputs[3];
 
         const add = form.querySelector("button");
 
-        add.addEventListener("click", async (e) => {
+        add.addEventListener("click", (e) => {
           e.preventDefault();
 
           if (email.value === "") {
@@ -68,47 +100,85 @@
             return;
           }
 
-          // 서버에 데잍터를 전송
-          // fetch(url, options)
-          const response = await fetch("http://localhost:8080/contacts", {
-            method: "POST", //HTTP Method
-            // 보낼 데이터 형식은 json
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify({
-              email: email.value,
-              name: name.value,
-              phone: phone.value,
-            }),
+          const reader = new FileReader();
+          // reader로 파일을 읽기가 완료되면 실행되는 이벤트 행들러 함수
+          reader.addEventListener("load", async (e) => {
+            console.log(e);
+            const image = e.target.result; // file -> base64 data-url
+
+            // 2-1. 서버에 데이터를 전송  // fetch(url, options)
+            const response = await fetch("http://localhost:8080/contacts", {
+              method: "POST", //HTTP Method
+              // 보낼 데이터 형식은 json
+              headers: {
+                "content-type": "application/json",
+              },
+              body: JSON.stringify({
+                email: email.value,
+                name: name.value,
+                phone: phone.value,
+                image,
+              }),
+            });
+
+            // 화면에 요소를 추가한 것에 데이터 처리가 정상적으로 완료된 이후에 서버에 응답받은 데이터
+            console.log(response);
+            const result = await response.json();
+            console.log(result);
+
+            const { data } = result;
+            console.log(data);
+
+            // 원래는 스테이터스로 조건달고 함수로 만들어서 호출함
+            if (response.status === 200) {
+              alert("정상적으로 추가되었습니다.");
+            } else if (data == null) {
+              alert("동일한 정보가 이미 존재합니다.");
+            }
+
+            document.querySelector("tbody").prepend(
+              createRow(data.name, data.phone, data.email, data.image)
+              // 중복된 이메일이 있으면 data값이 null반환돼서 화면에 안비춤
+              // name.value 이렇게 넣으면 인풋값이 나와서 중복되더라도
+              // 화면에 추가됐는데 data값으로 넣으니깐 값이 널값일때는 화면에 추가 안됨
+            );
+
+            form.reset();
           });
 
-          console.log(response);
-          const result = await response.json();
-          console.log(result);
-
-          const tbody = document.querySelector("tbody");
-          const tr = document.createElement("tr");
-
-          // 추가할 데이터의 속성 추가
-          // 삭제할 때 사용하려고 데이터 속성을 추가함
-          // tr.dataset.email = email.value;
-          tr.dataset.email = result.data.email;
-
-          tr.innerHTML = `<td>${name.value}</td><td>${phone.value}</td><td>${email.value}</td>`;
-          tbody.prepend(tr);
-          form.reset();
+          if (file.files[0]) {
+            // 파일이 있을 때
+            const reader = new FileReader();
+            // reader로 파일을 읽기가 완료되면 실행되면 이벤트 핸들러 함수
+            reader.addEventListener("load", async (e) => {
+              console.log(e);
+              // file -> base64 data-url
+              const image = e.target.result;
+              createContact(image);
+            });
+            // 파일을 dataURL(base64)로 읽음
+            reader.readAsDataURL(file.files[0]);
+          } else {
+            // 파일이 없을 때
+            createRow();
+          }
         });
+        console.log("추가폼 처리 코드");
       })();
 
-      // 삭제폼
+      // 4. 삭제폼 처리
       (() => {
         const form = document.forms[1];
         const email = form.querySelector("input");
         const del = form.querySelector("button");
 
-        del.addEventListener("click", (e) => {
+        del.addEventListener("click", async (e) => {
           e.preventDefault(); //폼에 제출되는 걸 막는 기능
+
+          await fetch(`http://localhost:8080/contacts/${email.value}`, {
+            method: "DELETE",
+          });
+
           const tr = document.querySelector(`tr[data-email="${email.value}"]`);
 
           if (!tr) {
