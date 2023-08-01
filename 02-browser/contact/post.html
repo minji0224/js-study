@@ -16,23 +16,38 @@
       ></textarea>
       <button>게시</button>
     </form>
-    <form>
-      삭제할번호: <br />
-      <input />
-      <button>삭제</button>
-    </form>
+    <div id="modify-layer" hidden>
+      <!-- 컨텐츠를 감싸는 영역 -->
+      <div>
+        <!-- 컨텐츠 컨테이너 영역 -->
+        <div id="modify-box">
+          <h3></h3>
+          <form>
+            <label>제목: <input type="text" /></label>
+            <label>본문: <input type="text" /></label>
+            <div>
+              <button>확인</button>
+              <button>취소</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <script>
       function cardTemplate(item) {
         const template = /*html*/ `
-        <div style="width:300px; margin-bottom:3rem;" data-no="${item.no}">
-          <em>${item.creatorName}</em>
+        <div class="template"; style="width:300px; margin-bottom:3rem;" data-no="${
+          item.no
+        }">
+          <em>${item.no} ${item.creatorName}</em>
           <hr>
           <h3>${item.title}</h3>
           <p>${item.content}</p>
           <hr>
           <small>${new Date(item.createdTime).toLocaleString()}</small>
-          <button>삭제</button>
+          <button class="btn-modify">수정</button>
+          <button class="btn-remove">삭제</button>
         </div>`;
         return template;
       }
@@ -99,6 +114,37 @@
           );
         });
       })();
+
+      console.log(document.querySelector("template"));
+
+      // 삭제 기능
+      (() => {
+        document.body.addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          if (e.target.classList.contains("btn-remove")) {
+            const removeBtn = e.target;
+            // const removeNum = removeBtn.getAttribute("data-no");
+            const removeNum = document.querySelector("template").dataset.no;
+            console.log(removeNum);
+
+            await fetch(`http://localhost:8080/posts/${removeNum}`, {
+              method: "DELETE",
+            });
+
+            removeBtn.parentElement.remove();
+          }
+        });
+      })();
+
+      // 수정기능
+      // (() => {
+      //   document.querySelector("template").addEventListener("click", (e) => {
+      //     if (e.target.classList.contains("btn-moddify")) {
+      //       const modityBtn = e.target;
+      //     }
+      //   });
+      // })();
     </script>
   </body>
 </html>

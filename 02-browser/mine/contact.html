@@ -4,6 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      #modify-layer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+      }
+
+      #modify-layer > div {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      #modify-box {
+        position: absolute;
+        /* 부모요소의 크기의 절반만큼을 오른쪽/아래쪽으로 이동시킴 */
+        left: 50vw;
+        top: 50vh;
+        transform: translateX(-50%) translateY(-50%);
+        /* 자기 자신 크기의 절반만큼을 왼쪽/위쪽으로 이동시킴 */
+        background-color: white;
+        width: 500px;
+        padding: 2rem;
+      }
+
+      #modify-box form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #modify-box form > div {
+        display: flex;
+        gap: 1rem;
+        margin-top: 0.5rem;
+      }
+      #modify-box form > div button {
+        flex: 1;
+      }
+    </style>
   </head>
   <body>
     <h2>연락처 관리 프로그램</h2>
@@ -25,9 +68,28 @@
     <hr />
     이메일로 해당 연락처 삭제: <br />
     <form>
-      <label>이메일을 입력하세요: <input type="text" /></label>
+      <label>이메일: <input type="text" /></label>
       <button>삭제</button>
     </form>
+    <!-- 모달 백그라운드 레이어 -->
+    <div id="modify-layer" hidden>
+      <!-- 컨텐츠를 감싸는 영역 -->
+      <div>
+        <!-- 컨텐츠 컨테이너 영역 -->
+        <div id="modify-box">
+          <h3>00</h3>
+          <form>
+            <label>이름: <input type="text" /></label>
+            <label>휴대폰: <input type="text" /></label>
+            <div>
+              <button>확인</button>
+              <button>취소</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- 컨텐츠를 감싸는 영역 -->
 
     <script>
       function createRow(name, phone, email, image) {
@@ -48,6 +110,7 @@
                 : ""
             }
            </td>
+           <td><button class="btn-modify">수정</button></td>
           `;
         return tr;
       }
@@ -189,6 +252,59 @@
           tr.remove();
 
           form.reset();
+        });
+      })();
+
+      // 5. 수정기능(이벤트위임)
+      (() => {
+        document.querySelector("tbody").addEventListener("click", (e) => {
+          if (e.target.classList.contains("btn-modify")) {
+            /** @type {HTMLButtonElement} */
+            const modifyBtn = e.target;
+
+            // 해당 버튼의 tr
+            const row = modifyBtn.parentElement.parentElement;
+            const cells = row.querySelectorAll("td");
+            console.log(cells[0].innerHTML);
+
+            // 모달 레이어 띄우기
+            /** @type {HTMLButtonElement} */
+            const layer = document.querySelector("#modify-layer");
+            layer.hidden = false;
+
+            // 모달 내부의 폼에 선택값을 채워 넣기
+            layer.querySelector("h3").innerHTML = cells[2].innerHTML;
+
+            const inputs = layer.querySelectorAll("input");
+            inputs[0].innerHTML = cells[0].innerHTML;
+            inputs[1].innerHTML = cells[1].innerHTML;
+
+            // 취소 버튼 핸들러 추가
+            const buttons = layer.querySelectorAll("button");
+
+            buttons[1].addEventListener("click", (e) => {
+              e.preventDefault();
+              layer.hidden = true;
+            });
+
+            // 수정 버튼 핸들러 추가
+            buttons[0].addEventListener("click", async (e) => {
+              e.preventDefault();
+              const email = cells[2].innerHTML;
+              const name = inputs[0].value;
+              const phone = inputs[1].value;
+
+              await fetch(`http://localhost:8080/contacts/${email}`, {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ name, phone }),
+              });
+
+              cells[0].innerHTML = inputs[0].value;
+              cells[1].innerHTML = inputs[1].value;
+              layer.hidden = true;
+            });
+          }
         });
       })();
     </script>
