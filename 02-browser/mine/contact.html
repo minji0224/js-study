@@ -71,6 +71,13 @@
       <label>이메일: <input type="text" /></label>
       <button>삭제</button>
     </form>
+    <form>
+      <input placeholder="이름, 전화번호..." /><button>검색</button>
+      <button>초기화</button>
+      &nbsp;&nbsp;&nbsp;
+      <button>이전</button>
+      <button>다음</button>
+    </form>
     <!-- 모달 백그라운드 레이어 -->
     <div id="modify-layer" hidden>
       <!-- 컨텐츠를 감싸는 영역 -->
@@ -92,6 +99,12 @@
     <!-- 컨텐츠를 감싸는 영역 -->
 
     <script>
+      let currentPage = 0; // 현재 페이지 번호
+      let isLastPage = false; // 마지막 페이지인지 여부
+      const PAGE_SIZE = 10; // 고정된 페이지 사이즈(갯수)
+      let currentQuery = ""; // 현재 검색 키워드 초기화
+
+      // 추가될 요소
       function createRow(name, phone, email, image) {
         const tr = document.createElement("tr");
         // 추가할 데이터를 삭제할 때 사용하려고 데이터 속성을 추가함
@@ -115,23 +128,119 @@
         return tr;
       }
 
-      // 1. 데이터 조회 및 목록 생성
-      (async () => {
-        const response = await fetch("http://localhost:8080/contacts");
-        const result = await response.json(); // 결과 배열로 나타남
-        console.log(result);
-        // for (let i of result) {
-        //   console.log(i["name"]);
-        //   console.log(i.name);
-        // }
+      // 1-1. 해당 페이지 가져오기
+      async function getPagedList(page, query) {
+        let url = "";
+        if (query) {
+          // 검색조건이 있을 경우
+          url = `http://localhost:8080/contacts/paging/search?page=${page}&size=${PAGE_SIZE}&query=${query}`;
+        } else {
+          url = `http://localhost:8080/contacts/paging?page=${page}&size=${PAGE_SIZE}`;
+        }
+        /*
+        1. 데이터처리가 정상적으로 조회되면
+        2. 화면 로딩이 완료되고
+        3. page값이 매개변수로 들어온다.
+        */
+
+        // 1-1-1. 웹페이지 로딩이 완료되면, 페이징으로 데이터 조회 및 목록 생성
+        const response = await fetch(url);
+        const result = await response.json();
 
         const tbody = document.querySelector("tbody");
-        // 배열 반복을 해서 tr만든 다음에 tbody가장 마지막 자식에 추가
-        for (let item of result) {
+        tbody.innerHTML = "";
+        for (let item of result.content) {
+          // 응답받아온 값으로 가져오기위해 result.content
           tbody.append(
             createRow(item.name, item.phone, item.email, item.image)
           );
         }
+
+        currentPage = result.number; // 현재 페이지로 설정(응답받은 값으로)
+        isLastPage = result.last; // 마지막 페이지 여부(트루/펄스: 응답받은 값으로)
+        // 이전/다음 버튼 활성화 처리
+        setBtnActive();
+      }
+
+      // 이전/다음 버튼 활성화 여부 처리
+      function setBtnActive() {
+        const buttons = document.forms[2].querySelectorAll("button");
+        const btnPrev = buttons[2];
+        const btnNext = buttons[3];
+        if (currentPage === 0) {
+          // 해당 페이지가 첫페이지(0)면 이전버튼 비활성화
+          btnPrev.disabled = true; //.disabled (HTML속성: 엘리먼트비활성화)
+        } else {
+          // 아닐 경우 활성화
+          btnPrev.disabled = false;
+        }
+        if (isLastPage) {
+          // 마지막페이지일 경우 버튼 비활성화
+          btnNext.disabled = true;
+        } else {
+          btnNext.disabled = false;
+        }
+      }
+
+      // 1-2. 웹페이지 로딩이 완료되면 페이지 0으로 초기화
+      (() => {
+        window.addEventListener("DOMContentLoaded", () => {
+          getPagedList(0);
+        });
+      })();
+
+      // 1-3. 이전/다음 페이징
+      (() => {
+        const buttons = document.forms[2].querySelectorAll("button");
+        const btnPrev = buttons[2];
+        const btnNext = buttons[3];
+
+        btnPrev.addEventListener("click", (e) => {
+          e.preventDefault();
+          currentPage > 0 && getPagedList(currentPage - 1, currentQuery);
+          // 현재페이지가 0보다 크면 getPagedList()함수를 호출하여
+          // 현재 페이지의 -1페이지로 이동시키는 것
+        });
+
+        btnNext.addEventListener("click", (e) => {
+          e.preventDefault();
+          !isLastPage && getPagedList(currentPage + 1, currentQuery);
+          // 마지막페이지가 아니면 현재페이지의 +1로 이동
+        });
+      })();
+
+      // 1-4. 검색 기능
+      (() => {
+        const txtQuery = document.forms[2].querySelector("input");
+        const btnSearch = document.forms[2].querySelector("button");
+
+        btnSearch.addEventListener("click", (e) => {
+          e.preventDefault();
+          currentQuery = txtQuery.value; // 인풋받은 값을 검색쿼리에 넣는
+          getPagedList(0, currentQuery);
+        });
+        // enter 눌렀을 때도 같은 기능을 하게
+        txtQuery.addEventListener("keyup", (e) => {
+          e.preventDefault();
+          if (e.key.toLocaleLowerCase() === "enter") {
+            currentQuery = txtQuery.value;
+            getPagedList(0, currentQuery);
+          }
+        });
+      })();
+
+      // 1-5. 검색조건 초기화
+      (() => {
+        const btnReset = document.forms[2].querySelectorAll("button")[1];
+
+        btnReset.addEventListener("click", (e) => {
+          // 검색조건 입력박스 초기화
+          document.forms[2].reset();
+          // 검색조건값 초기화
+          currentQuery = "";
+          // 검색조건이 초기화되면 0번페이지에서 다시 조회
+          getPagedList(0, currentQuery);
+        });
       })();
 
       // 2. 추가 폼 처리
@@ -163,12 +272,7 @@
             return;
           }
 
-          const reader = new FileReader();
-          // reader로 파일을 읽기가 완료되면 실행되는 이벤트 행들러 함수
-          reader.addEventListener("load", async (e) => {
-            console.log(e);
-            const image = e.target.result; // file -> base64 data-url
-
+          async function createContact(image) {
             // 2-1. 서버에 데이터를 전송  // fetch(url, options)
             const response = await fetch("http://localhost:8080/contacts", {
               method: "POST", //HTTP Method
@@ -180,9 +284,16 @@
                 email: email.value,
                 name: name.value,
                 phone: phone.value,
-                image,
+                image: image ? image : null,
               }),
             });
+            // const reader = new FileReader();
+            // // reader로 파일을 읽기가 완료되면 실행되는 이벤트 행들러 함수
+            // reader.addEventListener("load", async (e) => {
+            //   console.log(e);
+            //   const image = e.target.result; // file -> base64 data-url
+
+            //   });
 
             // 화면에 요소를 추가한 것에 데이터 처리가 정상적으로 완료된 이후에 서버에 응답받은 데이터
             console.log(response);
@@ -193,7 +304,7 @@
             console.log(data);
 
             // 원래는 스테이터스로 조건달고 함수로 만들어서 호출함
-            if (response.status === 200) {
+            if (response.status === 201) {
               alert("정상적으로 추가되었습니다.");
             } else if (data == null) {
               alert("동일한 정보가 이미 존재합니다.");
@@ -205,9 +316,8 @@
               // name.value 이렇게 넣으면 인풋값이 나와서 중복되더라도
               // 화면에 추가됐는데 data값으로 넣으니깐 값이 널값일때는 화면에 추가 안됨
             );
-
             form.reset();
-          });
+          }
 
           if (file.files[0]) {
             // 파일이 있을 때
@@ -223,7 +333,7 @@
             reader.readAsDataURL(file.files[0]);
           } else {
             // 파일이 없을 때
-            createRow();
+            createContact();
           }
         });
         console.log("추가폼 처리 코드");
