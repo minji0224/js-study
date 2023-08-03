@@ -78,24 +78,6 @@
     <div class="container"></div>
 
     <script>
-      // // function dateFo() {}  // 시계도 함수로 만들고 싶다.
-      // function cardTemplate(item) {
-      //   const time = new Date(item.createdTime);
-      //     const formattedTime = `${time.getFullYear()}년
-      //      ${(time.getMonth() + 1).toString()}월
-      //      ${time.getDate().toString()}일
-      //      ${time.getHours().toString()}시
-      //      ${time.getMinutes().toString()}분
-      //      ${time.getSeconds().toString()}초`;
-
-      //     const template = `<div data-no="${item.no}">
-      //       <span>${item.creatorName}</span><h3>${item.title}</h3>
-      //     <p>${item.content}</p>
-      //     <span>${formattedTime}</span>
-      //     <button>X</button></div> `;
-      //   return template;
-      // }
-
       (async () => {
         const response = await fetch("http://localhost:8080/posts");
         const result = Array.from(await response.json()); // result값을 자바스크립트의 문자열로 받아오는 것
@@ -111,11 +93,11 @@
            ${time.getMinutes().toString()}분
            ${time.getSeconds().toString()}초`;
 
-          const template = `<div data-no="${item.no}">
+          const template = `<div class="template" data-no="${item.no}">
             <span>${item.no} ${item.creatorName}</span><h3>${item.title}</h3>
           <p>${item.content}</p>
           <span>${formattedTime}</span>
-          <button>X</button></div> `;
+          <button class="btn-remove">X</button></div> `;
           container.insertAdjacentHTML("beforeend", template);
         });
       })();
@@ -175,44 +157,44 @@
         });
       })();
 
-      // (() => {
-
-      // 화면에서도 삭제되어야함
-      //   const form = document.querySelector("div");
-      //   const buttons = form.querySelectorAll("button");
-      //   const del = buttons[1];
-
-      //   del.addEventListener("click", async (e) => {
-      //     e.preventDefault();
-
-      //     await fetch(`http://localhost:8080/posts/${no.value}`, {
-      //       method: "DELETE",
-      //     });
-
-      //     const div = document.querySelector(`div[data-no="${no.value}"]`);
-
-      //     if (!div) {
-      //       alert("해당 이메일의 연락처 없습니다.");
-      //       return;
-      //     }
-
-      //     div.remove();
-      //     form.reset();
-      //   });
-      // })();
+      // 삭제버튼 만들기
+      // 1. 컨테이너안에 있는 x랑 삭제버튼이랑
 
       (() => {
-        const container = document.querySelector(".container");
-        const del = container.querySelector("button");
+        document.body.addEventListener("click", async (e) => {
+          e.preventDefault();
 
-        del.addEventListener("click", (e) => {
-          e.preventDefault;
+          if (e.target.classList.contains("btn-remove")) {
+            const delButton = e.target;
+            console.log(delButton);
+            console.log(document.body.classList("template"));
+            const removeNum = document.querySelector("div").dataset.no;
+            console.log(removeNum);
 
-          // 1. 컨테이너의 삭제버튼을 누르면
-          // 2. 화면에서 삭제되고
-          // 3. 서버에 있는 no벨류로 해당 데이터도 같이 삭제.
+            const response = await fetch(
+              `http://localhost:8080/posts/${removeNum}`,
+              {
+                method: "DELETE",
+              }
+            );
+
+            delButton.parentElement.remove();
+          }
         });
       })();
+
+      // (() => {
+      //   const container = document.querySelector(".container");
+      //   const del = container.querySelector("button");
+
+      //   del.addEventListener("click", (e) => {
+      //     e.preventDefault;
+
+      //     // 1. 컨테이너의 삭제버튼을 누르면
+      //     // 2. 화면에서 삭제되고
+      //     // 3. 서버에 있는 no벨류로 해당 데이터도 같이 삭제.
+      //   });
+      // })();
     </script>
   </body>
 </html>
