@@ -62,7 +62,7 @@
 
         // 배열 메서드를 사용하기 위해서...
         const data = Array.from(result);
-        console.log(data);
+        console.log(data.sort((a, b) => a.no - b.no));
 
         // 2.-- 데이터배열 반복문으로 html문자열 만들고,
         // 컨테이너에 추가

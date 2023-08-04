@@ -84,6 +84,7 @@
 
         result.forEach((item) => {
           const container = document.querySelector(".container");
+          console.log(result.sort((a, b) => a.no - b.no));
 
           const time = new Date(item.createdTime);
           const formattedTime = `${time.getFullYear()}년
@@ -98,7 +99,7 @@
           <p>${item.content}</p>
           <span>${formattedTime}</span>
           <button class="btn-remove">X</button></div> `;
-          container.insertAdjacentHTML("beforeend", template);
+          container.insertAdjacentHTML("afterbegin", template);
         });
       })();
 
