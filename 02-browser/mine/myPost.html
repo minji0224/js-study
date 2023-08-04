@@ -45,7 +45,7 @@
         font-style: oblique;
       }
 
-      .form {
+      form {
         margin: 2rem;
         padding: 1rem;
         border: 1px solid black;
@@ -69,12 +69,12 @@
     </style>
   </head>
   <body>
-    <div class="form">
-      <input type="text" placeholder="제목" />
-      <input type="text" placeholder="컨텐트" />
+    <form>
+      <textarea cols="50" placeholder="제목"></textarea>
+      <textarea cols="50" rows="20" placeholder="컨탠트"></textarea>
       <button>게시</button> <br />
-      삭제할 번호<input /><button>삭제</button>
-    </div>
+      삭제할 게시물 번호<input /><button>삭제</button>
+    </form>
     <div class="container"></div>
 
     <script>
@@ -84,7 +84,6 @@
 
         result.forEach((item) => {
           const container = document.querySelector(".container");
-          console.log(result.sort((a, b) => a.no - b.no));
 
           const time = new Date(item.createdTime);
           const formattedTime = `${time.getFullYear()}년
@@ -104,15 +103,17 @@
       })();
 
       (() => {
-        const form = document.querySelector(".form");
-        console.log(form);
-        const inputs = form.querySelectorAll("input");
-        const title = inputs[0];
-        const content = inputs[1];
+        const form = document.querySelector("form");
+        const textareas = form.querySelectorAll("textarea");
+        const title = textareas[0];
+        const content = textareas[1];
         const add = form.querySelector("button");
+        console.log(title);
+        console.log(content);
+        console.log(add);
 
         add.addEventListener("click", async (e) => {
-          e.preventDefault(); //폼은 꼭 제출막는거 넣어줘야함
+          e.preventDefault();
 
           if (title.value === "") {
             alert("제목을 입력해주세요.");
@@ -143,24 +144,17 @@
 
           const container = document.querySelector(".container");
 
-          // const template = `<div data-no="${result.data.no.value}">
-          // <span>${result.data.no.value}</span><h3>${title.value}</h3>
-          // <p>${content.value}</p>
-          // </div> `;
-
           const template = `<div data-no="${data.no}">
             <span>${data.creatorName}</span><h3>${data.title}</h3>
           <p>${data.content}</p>
           <span>${data.formattedTime}</span></div> `;
 
           container.append(template);
-          // form.reset();
+          form.reset();
         });
       })();
 
-      // 삭제버튼 만들기
-      // 1. 컨테이너안에 있는 x랑 삭제버튼이랑
-
+      // 삭제(본문 안)
       (() => {
         document.body.addEventListener("click", async (e) => {
           e.preventDefault();
@@ -169,14 +163,43 @@
             const delButton = e.target;
             const removeNum = delButton.parentElement.dataset.no;
 
-            const response = await fetch(
-              `http://localhost:8080/posts/${removeNum}`,
-              {
-                method: "DELETE",
-              }
-            );
-            delButton.parentElement.remove();
+            const ask = confirm("해당 게시물을 삭제하시겠습니까?");
+            if (ask) {
+              const response = await fetch(
+                `http://localhost:8080/posts/${removeNum}`,
+                {
+                  method: "DELETE",
+                }
+              );
+              delButton.parentElement.remove();
+            }
           }
+        });
+      })();
+
+      // 삭제(폼 안)
+      (() => {
+        const form = document.querySelector("form");
+        const buttons = form.querySelectorAll("button");
+        const formDel = buttons[1];
+        const delNum = form.querySelector("input");
+
+        formDel.addEventListener("click", async (e) => {
+          e.preventDefault();
+          const removeNum = delNum.value;
+
+          const response = await fetch(
+            `http://localhost:8080/posts/${removeNum}`,
+            {
+              method: "DELETE",
+            }
+          );
+          const template = document.querySelector(
+            `div[data-no="${removeNum}"]`
+          );
+
+          template.remove();
+          form.reset();
         });
       })();
 
