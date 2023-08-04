@@ -166,10 +166,7 @@
 
           if (e.target.classList.contains("btn-remove")) {
             const delButton = e.target;
-            console.log(delButton);
-            console.log(document.body.classList("template"));
-            const removeNum = document.querySelector("div").dataset.no;
-            console.log(removeNum);
+            const removeNum = delButton.parentElement.dataset.no;
 
             const response = await fetch(
               `http://localhost:8080/posts/${removeNum}`,
@@ -177,24 +174,12 @@
                 method: "DELETE",
               }
             );
-
             delButton.parentElement.remove();
           }
         });
       })();
 
-      // (() => {
-      //   const container = document.querySelector(".container");
-      //   const del = container.querySelector("button");
-
-      //   del.addEventListener("click", (e) => {
-      //     e.preventDefault;
-
-      //     // 1. 컨테이너의 삭제버튼을 누르면
-      //     // 2. 화면에서 삭제되고
-      //     // 3. 서버에 있는 no벨류로 해당 데이터도 같이 삭제.
-      //   });
-      // })();
+      // 수정기능 만들기
     </script>
   </body>
 </html>
